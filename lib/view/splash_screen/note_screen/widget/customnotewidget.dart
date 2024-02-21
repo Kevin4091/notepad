@@ -19,10 +19,7 @@ class CustomNoteWidget extends StatelessWidget {
                 children: [
                   const Text(
                     "Title",
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                   ),
                   Row(
                     children: [

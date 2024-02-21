@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ColorConstant {
-  static const Color mainWhite = Colors.white;
-  static const Color mainBlack = Colors.black;
-  static const Color mainRed = Colors.red;
-  static const Color mainGrey = Colors.grey;
+class ColorContant {
+  static Color? cusblue = Colors.blue[100];
+  static Color? cusred = Colors.red[100];
+  static Color? cusgreen = Colors.green[100];
+  static Color? cusyellow = Colors.yellow[100];
 }
