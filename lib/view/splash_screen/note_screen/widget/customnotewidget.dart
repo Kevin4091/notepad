@@ -1,66 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:notepad/utils/constants/color_constant.dart';
 
-class CustomNoteWidget extends StatelessWidget {
-  const CustomNoteWidget({
-    super.key,
-  });
+class CustomNotesWidget extends StatefulWidget {
+  const CustomNotesWidget(
+      {super.key,
+      required this.title,
+      required this.des,
+      required this.date,
+      required this.noteColor,
+      this.onDeletePressed});
 
+  final String title;
+  final String des;
+  final String date;
+  final Color noteColor;
+
+  final void Function()? onDeletePressed;
+
+  @override
+  State<CustomNotesWidget> createState() => _CustomNotesWidgetState();
+}
+
+class _CustomNotesWidgetState extends State<CustomNotesWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15), color: Colors.amber),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: Column(
+      decoration: BoxDecoration(
+          color: widget.noteColor, borderRadius: BorderRadius.circular(15)),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Title",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.edit)),
-                      IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.delete)),
-                    ],
-                  )
-                ],
+              Text(
+                widget.title,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.mainBlack,
+                    fontSize: 22),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "Description",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black.withOpacity(0.6)),
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      // implement edit functinoality here
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: widget.onDeletePressed,
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "Tue, Feb 20, 2024",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black.withOpacity(0.6)),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
-                ],
-              )
             ],
           ),
-        ));
+          Text(
+            widget.des,
+            textAlign: TextAlign.justify,
+            style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                color: ColorConstants.mainBlack,
+                fontSize: 16),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                widget.date,
+                style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: ColorConstants.mainBlack,
+                    fontSize: 16),
+              ),
+              IconButton(
+                icon: const Icon(Icons.share),
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

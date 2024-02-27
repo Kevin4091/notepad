@@ -1,196 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:notepad/controller/note_screen_controller.dart';
 import 'package:notepad/utils/constants/color_constant.dart';
+import 'package:notepad/view/splash_screen/note_screen/widget/custom_bottom_sheet.dart';
 import 'package:notepad/view/splash_screen/note_screen/widget/customnotewidget.dart';
 
-class NoteScreen extends StatelessWidget {
+class NoteScreen extends StatefulWidget {
   const NoteScreen({super.key});
+
+  @override
+  State<NoteScreen> createState() => _NoteScreenState();
+}
+
+class _NoteScreenState extends State<NoteScreen> {
+  NoteScreenController noteScreenController = NoteScreenController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstants.mainBlack,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 32, 32, 32),
+        backgroundColor: ColorConstants.mainLightGrey,
         onPressed: () {
           showModalBottomSheet(
-            isScrollControlled: true,
-            showDragHandle: true,
-            context: context,
-            builder: (context) => SizedBox(
-              height: 550,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                          label: const Text(
-                            "Title",
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colors.black.withOpacity(0.6))),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colors.black.withOpacity(0.6)))),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 50.0, horizontal: 10),
-                          label: const Text(
-                            "Description",
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colors.black.withOpacity(0.6))),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colors.black.withOpacity(0.6)))),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          label: const Text(
-                            "Date",
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colors.black.withOpacity(0.6))),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Colors.black.withOpacity(0.6)))),
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: ColorContant.cusblue,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            height: 50,
-                            width: 50,
-                          ),
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: ColorContant.cusgreen,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: ColorContant.cusred,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: ColorContant.cusyellow,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 90,
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 0.9),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Center(
-                              child: Text(
-                            "Cancel",
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          )),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        Container(
-                          height: 40,
-                          width: 90,
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 0.9),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Center(
-                              child: Text(
-                            "Save",
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          )),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          );
+              isScrollControlled: true,
+              context: context,
+              builder: (context) => CustomBottomSheet(
+                    onSavePressed: () {
+                      // function to add a new note
+                      noteScreenController.addData();
+                      setState(() {});
+                      NoteScreenController.clearControllers();
+
+                      Navigator.pop(context);
+                    },
+                  ));
         },
-        elevation: 0,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
+        child: const Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: const Text(
-          'Notepad',
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        backgroundColor: ColorConstants.mainBlack,
         centerTitle: true,
+        title: const Text("Note Pad"),
+        titleTextStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: ColorConstants.mainWhite,
+            fontSize: 28),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => const CustomNoteWidget(),
-                  separatorBuilder: (context, index) => const SizedBox(
-                        height: 10,
-                      ),
-                  itemCount: 5)
-            ],
-          ),
+      body: ListView.separated(
+        itemCount: noteScreenController.notesList.length,
+        padding: const EdgeInsets.all(15),
+        itemBuilder: (context, index) => CustomNotesWidget(
+          title: noteScreenController.notesList[index]["title"],
+          date: noteScreenController.notesList[index]["date"],
+          des: noteScreenController.notesList[index]["des"],
+          noteColor: noteScreenController.notesList[index]["color"],
+          onDeletePressed: () {
+            // to delete a data from the list
+
+            noteScreenController.deleteData(index);
+            setState(() {});
+          },
         ),
+        separatorBuilder: (context, index) => const SizedBox(height: 20),
       ),
     );
   }
